@@ -1,3 +1,6 @@
+-- *****************************************************************
+-- Foundry Commited Access Rate MIB file.
+-- *****************************************************************
 FOUNDRY-VLAN-CAR-MIB DEFINITIONS ::= BEGIN
 
 IMPORTS
