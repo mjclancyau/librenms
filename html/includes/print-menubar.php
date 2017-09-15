@@ -126,6 +126,7 @@ if (dbFetchCell("SELECT 1 from `packages` LIMIT 1")) {
             <li><a href="<?php echo(generate_url(array('page'=>'search','search'=>'ipv6'))); ?>"><i class="fa fa-search fa-fw fa-lg" aria-hidden="true"></i> IPv6 Address</a></li>
             <li><a href="<?php echo(generate_url(array('page'=>'search','search'=>'mac'))); ?>"><i class="fa fa-search fa-fw fa-lg" aria-hidden="true"></i> MAC Address</a></li>
             <li><a href="<?php echo(generate_url(array('page'=>'search','search'=>'arp'))); ?>"><i class="fa fa-search fa-fw fa-lg" aria-hidden="true"></i> ARP Tables</a></li>
+            <li><a href="<?php echo(generate_url(array('page'=>'search','search'=>'fdb'))); ?>"><i class="fa fa-search fa-fw fa-lg" aria-hidden="true"></i> FDB Tables</a></li>
 <?php
 if (is_module_enabled('poller', 'mib')) {
 ?>
@@ -658,7 +659,7 @@ if ($_SESSION['userlevel'] >= '10') {
            <a href="#"><i class="fa fa-code fa-fw fa-lg" aria-hidden="true"></i> API</a>
            <ul class="dropdown-menu scrollable-menu">
              <li><a href="api-access/"><i class="fa fa-cog fa-fw fa-lg" aria-hidden="true"></i> API Settings</a></li>
-             <li><a href="http://docs.librenms.org/API/API-Docs/" target="_blank" rel="noopener"><i class="fa fa-book fa-fw fa-lg" aria-hidden="true"></i> API Docs</a></li>
+             <li><a href="https://docs.librenms.org/API/" target="_blank" rel="noopener"><i class="fa fa-book fa-fw fa-lg" aria-hidden="true"></i> API Docs</a></li>
            </ul>
            </li>
            <li role="presentation" class="divider"></li>');

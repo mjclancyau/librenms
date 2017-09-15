@@ -600,6 +600,11 @@ $config['graph_types']['device']['riverbed_passthrough']['section'] = 'network';
 $config['graph_types']['device']['riverbed_passthrough']['order'] = 3;
 $config['graph_types']['device']['riverbed_passthrough']['descr'] = 'Bandwidth Passthrough';
 
+//mikrotik specific graphs
+$config['graph_types']['device']['routeros_leases']['section'] = 'network';
+$config['graph_types']['device']['routeros_leases']['order'] = 0;
+$config['graph_types']['device']['routeros_leases']['descr'] = 'DHCP Lease Count';
+
 // Device Types
 $i = 0;
 $config['device_types'][$i]['text'] = 'Servers';
@@ -689,6 +694,8 @@ if (isset($_SERVER['HTTPS'])) {
 // Set some times needed by loads of scripts (it's dynamic, so we do it here!)
 $config['time']['now']      = time();
 $config['time']['now']     -= ($config['time']['now'] % 300);
+$config['time']['onehour'] = ($config['time']['now'] - 3600);
+// time() - (1 * 60 * 60);
 $config['time']['fourhour'] = ($config['time']['now'] - 14400);
 // time() - (4 * 60 * 60);
 $config['time']['sixhour'] = ($config['time']['now'] - 21600);

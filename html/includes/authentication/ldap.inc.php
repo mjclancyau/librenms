@@ -2,13 +2,18 @@
 
 use LibreNMS\Exceptions\AuthenticationException;
 
-$ldap_connection = @ldap_connect($config['auth_ldap_server'], $config['auth_ldap_port']);
+function init_auth()
+{
+    global $config, $ldap_connection;
 
-if ($config['auth_ldap_starttls'] && ($config['auth_ldap_starttls'] == 'optional' || $config['auth_ldap_starttls'] == 'require')) {
-    $tls = ldap_start_tls($ldap_connection);
-    if ($config['auth_ldap_starttls'] == 'require' && $tls === false) {
-        echo '<h2>Fatal error: LDAP TLS required but not successfully negotiated:'.ldap_error($ldap_connection).'</h2>';
-        exit;
+    $ldap_connection = @ldap_connect($config['auth_ldap_server'], $config['auth_ldap_port']);
+
+    if ($config['auth_ldap_starttls'] && ($config['auth_ldap_starttls'] == 'optional' || $config['auth_ldap_starttls'] == 'require')) {
+        $tls = ldap_start_tls($ldap_connection);
+        if ($config['auth_ldap_starttls'] == 'require' && $tls === false) {
+            echo '<h2>Fatal error: LDAP TLS required but not successfully negotiated:'.ldap_error($ldap_connection).'</h2>';
+            exit;
+        }
     }
 }
 
@@ -134,7 +139,7 @@ function get_userid($username)
     $entries = ldap_get_entries($ldap_connection, $search);
 
     if ($entries['count']) {
-        return $entries[0]['uidnumber'][0];
+        return $entries[0][$config['auth_ldap_uid_attribute']][0];
     }
 
     return -1;
@@ -162,7 +167,7 @@ function get_userlist()
         foreach ($entries as $entry) {
             $username    = $entry['uid'][0];
             $realname    = $entry['cn'][0];
-            $user_id     = $entry['uidnumber'][0];
+            $user_id     = $entry[$config['auth_ldap_uid_attribute']][0];
             $email       = $entry[$config['auth_ldap_emailattr']][0];
             $ldap_groups = get_group_list();
             foreach ($ldap_groups as $ldap_group) {
