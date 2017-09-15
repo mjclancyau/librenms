@@ -784,8 +784,8 @@ function get_smokeping_files($device)
                             $smokeping_files['in'][$target][$slave] = $file;
                             $smokeping_files['out'][$slave][$target] = $file;
                         } else {
-                            $target = str_replace('.rrd', '', $file);
-                            $target = str_replace('_', '.', $target);
+                            $target = preg_replace('/.+_(.+)\.rrd/i', '$1', $file);
+                            $target = str_replace('-', '.', $target);
                             $smokeping_files['in'][$target][$config['own_hostname']] = $file;
                             $smokeping_files['out'][$config['own_hostname']][$target] = $file;
                         }
