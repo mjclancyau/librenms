@@ -1,8 +1,8 @@
 <?php
 /**
- * process_config.inc.php
+ * apsoluteos.inc.php
  *
- * LibreNMS file to post process $config into something usable
+ * LibreNMS os poller module for DefensePro ( APSoluteOS )
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,26 +19,12 @@
  *
  * @package    LibreNMS
  * @link       http://librenms.org
- * @copyright  2017 Neil Lathwood
- * @author     Neil Lathwood <neil@lathwood.co.uk>
+ * @copyright  2017 Simone Fini
+ * @author     Simone Fini<tomfordfirst@gmail.com>
  */
-
-if (empty($config['email_from'])) {
-    $config['email_from'] = '"' . $config['project_name'] . '" <' . $config['email_user'] . '@' . php_uname('n') . '>';
-}
-
-// We need rrdtool so ensure it's set
-if (empty($config['rrdtool'])) {
-    $config['rrdtool'] = '/usr/bin/rrdtool';
-}
-if (empty($config['rrdtool_version'])) {
-    $config['rrdtool_version'] = 1.4;
-}
-
-if ($config['secure_cookies']) {
-    ini_set('session.cookie_secure', 1);
-}
-
-if ($config['rrdgraph_real_95th']) {
-    $config['rrdgraph_real_percentile'] = $config['rrdgraph_real_95th'];
-}
+$oids = 'genGroupHWVersion.0 rndSerialNumber.0 rndApsoluteOSVersion.0 rdwrDevicePortsConfig.0';
+$data = snmp_get_multi($device, $oids, '-OQs', 'RADWARE-MIB');
+$serial = trim($data[0]['rndSerialNumber'], '"');
+$version = trim($data[0]['rndApsoluteOSVersion'], '"');
+$hardware = trim($data[0]['genGroupHWVersion'], '"');
+$features = 'Ver. '.trim($data[0]['rdwrDevicePortsConfig'], '"');
