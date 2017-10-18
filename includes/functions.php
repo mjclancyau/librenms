@@ -604,7 +604,7 @@ function isPingable($hostname, $address_family = AF_INET, $attribs = array())
             $fping_params .= ' -p ' . $config['fping_options']['millisec'];
         }
         $status = fping($hostname, $fping_params, $address_family);
-        if ($status['exitcode'] > 0 || $status['loss'] == 100) {
+        if ($status['loss'] == 100) {
             $response['result'] = false;
         } else {
             $response['result'] = true;
@@ -1365,7 +1365,6 @@ function fping($host, $params, $address_family = AF_INET)
             $read .= fgets($pipes[1], 1024);
         }
         fclose($pipes[1]);
-        $proc_status = proc_get_status($process);
         proc_close($process);
     }
 
@@ -1385,7 +1384,7 @@ function fping($host, $params, $address_family = AF_INET)
     $min      = set_numeric($min);
     $max      = set_numeric($max);
     $avg      = set_numeric($avg);
-    $response = array('xmt'=>$xmt,'rcv'=>$rcv,'loss'=>$loss,'min'=>$min,'max'=>$max,'avg'=>$avg,'exitcode'=>$proc_status['exitcode']);
+    $response = array('xmt'=>$xmt,'rcv'=>$rcv,'loss'=>$loss,'min'=>$min,'max'=>$max,'avg'=>$avg);
     return $response;
 }
 
@@ -2326,5 +2325,16 @@ function get_device_oid_limit($device)
         return $config['snmp']['max_oid'];
     } else {
         return 10;
+    }
+}
+
+/**
+ * Strip out non-numeric characters
+ */
+function return_num($entry)
+{
+    if (!is_numeric($entry)) {
+        preg_match('/-?\d*\.?\d+/', $entry, $num_response);
+        return $num_response[0];
     }
 }
