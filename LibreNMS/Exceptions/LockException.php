@@ -1,8 +1,8 @@
 <?php
 /**
- * geist-watchdog.inc.php
+ * LockException.php
  *
- * LibreNMS OS poller module for Geist Watchdog
+ * -Description-
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,13 @@
  *
  * @package    LibreNMS
  * @link       http://librenms.org
- * @copyright  2017 Neil Lathwood
- * @author     Neil Lathwood <gh+n@laf.io>
+ * @copyright  2017 Tony Murray
+ * @author     Tony Murray <murraytony@gmail.com>
  */
 
-$serial  = snmp_get($device, 'climateSerial.1', '-Oqv', 'GEIST-MIB-V3');
-$version = snmp_get($device, 'productVersion.0', '-Oqv', 'GEIST-MIB-V3');
+
+namespace LibreNMS\Exceptions;
+
+class LockException extends \Exception
+{
+}
